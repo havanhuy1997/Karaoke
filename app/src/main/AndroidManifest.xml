@@ -18,8 +18,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.huyha.activities.main.MainActivity"></activity>
-        <activity android:name="com.example.huyha.activities.lyric.LyricActivity"></activity>
+        <activity android:name="com.example.huyha.activities.main.MainActivity" />
+        <activity android:name="com.example.huyha.activities.lyric.LyricActivity" />
+        <activity
+            android:name="com.example.huyha.activities.drawer.DrawerActivity"
+            android:label="@string/title_activity_drawer"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
