@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import com.example.huyha.activities.lyric.LyricActivity;
 import com.example.huyha.adapters.SongAdapter;
+import com.example.huyha.fragments.MainPresenter;
 import com.example.huyha.models.Song;
 import com.example.huyha.models.localData.Database;
 import com.example.huyha.utils.AsynFindDatabase;

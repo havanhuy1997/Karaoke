@@ -2,7 +2,7 @@ package com.example.huyha.utils;
 
 import android.os.AsyncTask;
 
-import com.example.huyha.activities.main.MainPresenter;
+import com.example.huyha.fragments.MainPresenter;
 import com.example.huyha.adapters.SongAdapter;
 import com.example.huyha.models.Song;
 import com.example.huyha.models.localData.Database;

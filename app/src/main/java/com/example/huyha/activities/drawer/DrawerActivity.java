@@ -1,6 +1,5 @@
 package com.example.huyha.activities.drawer;
 
-import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,34 +7,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.huyha.fragments.ArirangFragment;
 import com.example.huyva.karaoke.R;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Toolbar toolbar;
+    DrawerPresenter drawerPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        updateDisplay(0);
+        init();
     }
 
     @Override
@@ -77,10 +64,13 @@ public class DrawerActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.arirangList) {
-            // Handle the camera action
+            drawerPresenter.updateDisplay(0);
+            toolbar.setSubtitle(getResources().getString(R.string.title_5));
         } else if (id == R.id.californiaList) {
-
+            drawerPresenter.updateDisplay(1);
+            toolbar.setSubtitle(getResources().getString(R.string.title_6)) ;
         } else if (id == R.id.contact) {
+            drawerPresenter.updateDisplay(2);
 
         }
 
@@ -89,32 +79,25 @@ public class DrawerActivity extends AppCompatActivity
         return true;
     }
 
-    private void updateDisplay(int position) {
-        ArirangFragment fragment = null;
-        switch (position) {
-            case 0:
-                fragment  = new ArirangFragment();
-                fragment.setmContext(this);
-                break;
-            case 1:
-                break;
-            case 2:
-                break;
-            default:
-                break;
-        }
+    private  void init(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        if (fragment != null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.frame_container, fragment).commit();
 
-            // update selected item and title, then close the drawer
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-        } else {
-            // error in creating fragment
-            Log.e("DrawerActivity", "Error in creating fragment");
-        }
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
+        drawerPresenter = new DrawerPresenter(this);
+
+        drawerPresenter.updateDisplay(0);
+        toolbar.setTitle("Mã Số Bài Hát Karaoke");
+        toolbar.setSubtitle(getResources().getString(R.string.title_5));
     }
+
 }

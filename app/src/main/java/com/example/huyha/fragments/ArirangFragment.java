@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.huyha.activities.lyric.LyricActivity;
-import com.example.huyha.activities.main.MainPresenter;
 import com.example.huyha.adapters.SongAdapter;
 import com.example.huyha.models.Song;
 import com.example.huyha.models.localData.Database;
@@ -39,6 +38,7 @@ public class ArirangFragment extends android.app.Fragment {
     private Context mContext;
     public static String keySearch;
     private int countSpaceKeySearch = 0;
+    private static int typeSong;
 
     List<Song> mSonglist = new ArrayList<>();
     SongAdapter mSongAdapter;
@@ -48,6 +48,14 @@ public class ArirangFragment extends android.app.Fragment {
 
     public ArirangFragment() {
         // Required empty public constructor
+    }
+
+    public static int getTypeSong() {
+        return typeSong;
+    }
+
+    public static void setTypeSong(int typeSong) {
+        ArirangFragment.typeSong = typeSong;
     }
 
     public Context getmContext() {
@@ -68,6 +76,7 @@ public class ArirangFragment extends android.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG,"OnCreate View");
         View v = inflater.inflate(R.layout.fragment_arirang, container, false);
         // Inflate the layout for this fragment
         ButterKnife.bind(this,v);
@@ -76,6 +85,7 @@ public class ArirangFragment extends android.app.Fragment {
 
     @Override
     public void onStart() {
+        Log.d(TAG,"onStart"+txtKeySearch.getText().toString());
         super.onStart();
         init();
         addEvent();
@@ -95,13 +105,19 @@ public class ArirangFragment extends android.app.Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG,"OnResume");
-        init();
-        mSongAdapter.notifyDataSetChanged();
     }
 
     private void init(){
         mMainPresenter = new MainPresenter(new Database().getInstance());
-        mSonglist = mMainPresenter.selectAll();
+        mMainPresenter.setTypeSong(typeSong);
+        keySearch = txtKeySearch.getText().toString();
+        if ( keySearch.length() == 0) {
+            mSonglist = mMainPresenter.selectAll();
+        }
+        else{
+            new AsynFindDatabase(mSonglist,mSongAdapter).execute(keySearch);
+        }
+        //new AsynFindDatabase(mSonglist,mSongAdapter).execute(new String[]{"","selectAll"});
         intent = new Intent(mContext, LyricActivity.class);
 
         listener = new SongAdapter.onItemClickListener() {
@@ -139,6 +155,51 @@ public class ArirangFragment extends android.app.Fragment {
         rvPage.setAdapter(mSongAdapter);
     }
 
+    private void resume(){
+        mMainPresenter = new MainPresenter(new Database().getInstance());
+        mMainPresenter.setTypeSong(typeSong);
+        if (txtKeySearch.getText().toString() != "") {
+            new AsynFindDatabase(mSonglist, mSongAdapter).execute(txtKeySearch.getText().toString());
+        }
+        else{
+            mSonglist = mMainPresenter.selectAll();
+        }
+        intent = new Intent(mContext, LyricActivity.class);
+
+        listener = new SongAdapter.onItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                //Start Lyric Activity
+                Song songClick =  mSonglist.get(position);
+                Log.d(TAG,"name click" + mSonglist.get(position).getName());
+                intent.putExtra("song",songClick);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onButtonFavoriteClick(View v, int positon) {
+                //Update favorite Song
+                Log.d(TAG,"button click");
+                Song songClick =  mSonglist.get(positon);
+                String id = songClick.getID();
+                if (songClick.isLike()){
+                    mMainPresenter.updateFavorite(id,0);
+                    songClick.setLike(false);
+                    mSongAdapter.notifyDataSetChanged();
+                }
+                else{
+                    mMainPresenter.updateFavorite(id,1);
+                    songClick.setLike(true);
+                    mSongAdapter.notifyDataSetChanged();
+                }
+            }
+        };
+        mSongAdapter = new SongAdapter(mSonglist, listener);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
+        rvPage.setLayoutManager(mLayoutManager);
+        rvPage.setAdapter(mSongAdapter);
+    }
     private void addEvent() {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override

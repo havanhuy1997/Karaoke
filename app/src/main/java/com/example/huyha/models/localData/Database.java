@@ -38,6 +38,7 @@ public class Database {
         }
         return instance;
     }
+
     private boolean checkExistDatabase(){
         if (mContext != null) {
             File databaseFile = mContext.getDatabasePath( databaseName);

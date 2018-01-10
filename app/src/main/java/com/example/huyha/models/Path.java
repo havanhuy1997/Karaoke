@@ -5,7 +5,7 @@ package com.example.huyha.models;
  */
 
 public class Path {
-    public  static final String databaseName = "Arirang.sqlite";
+    public  static final String databaseName = "ArirangCalifornia.sqlite";
     public static final String databaseDir = "databases";
 }
 

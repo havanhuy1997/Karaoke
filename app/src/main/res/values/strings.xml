@@ -10,6 +10,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_drawer_activity">Mã Bài Hát Karaoke</string>
+    <string name="title_5">5 Số</string>
+    <string name="title_6">6 Số</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
