@@ -120,4 +120,26 @@ public class MainPresenter{
         return false;
     }
 
+    public List<Song> findFavoriteSong(int typeSong){
+        List<Song> songList = new ArrayList<>();
+        String sqlQuery = "select * from songs where type_song="+typeSong+" AND favorite=1 order by name_song";
+        if (mDatabase != null){
+            Cursor cursor = mDatabase.rawQuery(sqlQuery,null);
+            if (cursor == null){
+                Log.d(TAG,"Null cursor in findFavoriteSong");
+                return null;
+            }
+            while (cursor.moveToNext()){
+                String id = cursor.getString(0);
+                String name = cursor.getString(2);
+                String lyric = cursor.getString(3);
+                String composer = cursor.getString(4);
+                Boolean favorite = cursor.getInt(6) > 0;
+                Song song = new Song(id,name.toUpperCase(),lyric,composer,favorite);
+                songList.add(song);
+            }
+        }
+        return songList;
+    }
+
 }

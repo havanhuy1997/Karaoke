@@ -1,18 +1,24 @@
 <resources>
-    <string name="app_name">Karaoke</string>
-    <string name="btn_search">Search</string>
-    <string name="txt_search">Enter song..</string>
+    <string name="app_name">Mã Số Karaoke</string>
+    <string name="btn_search">Tìm</string>
+    <string name="txt_search">Nhập Tên Bài Hát..</string>
     <string name="txt_composer">Nhạc Sỹ:</string>
     <string name="title_actionbar_lyric_activity">Lời bài hát</string>
-    <string name="title_activity_drawer">DrawerActivity</string>
+    <string name="title_activity_drawer">Mã Bài Hát Karaoke</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_email">havanhuy1997@gmail.com</string>
+    <string name="navigation_arirang">Karaoke 5 Số</string>
+    <string name="navigation_california">Karaoke 6 Số</string>
+    <string name="navigation_favorite">Bài Hát Yêu Thích</string>
+    <string name="navigation_contact">Liên Hệ</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_drawer_activity">Mã Bài Hát Karaoke</string>
     <string name="title_5">5 Số</string>
     <string name="title_6">6 Số</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

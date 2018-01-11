@@ -6,20 +6,16 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/arirangList"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Arirang" />
+            android:title="@string/navigation_arirang" />
         <item
             android:id="@+id/californiaList"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="California" />
+            android:title="@string/navigation_california" />
         <item
             android:id="@+id/favoriteList"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Favorite" />
+            android:title="@string/navigation_favorite" />
         <item
             android:id="@+id/contact"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Contact" />
+            android:title="@string/navigation_contact" />
     </group>
 
 </menu>

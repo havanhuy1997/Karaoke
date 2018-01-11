@@ -17,7 +17,7 @@
             android:id="@+id/txtID"
             android:layout_width="136dp"
             android:layout_height="match_parent"
-            android:background="@color/colorAccent"
+            android:background="?android:attr/colorActivatedHighlight"
             android:gravity="center"
             android:text="555555"
             android:textAllCaps="false"
@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:text="Take me to Your heart"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@android:color/holo_red_dark"
                 android:textSize="18sp" />
 
             <TextView

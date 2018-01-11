@@ -155,51 +155,6 @@ public class ArirangFragment extends android.app.Fragment {
         rvPage.setAdapter(mSongAdapter);
     }
 
-    private void resume(){
-        mMainPresenter = new MainPresenter(new Database().getInstance());
-        mMainPresenter.setTypeSong(typeSong);
-        if (txtKeySearch.getText().toString() != "") {
-            new AsynFindDatabase(mSonglist, mSongAdapter).execute(txtKeySearch.getText().toString());
-        }
-        else{
-            mSonglist = mMainPresenter.selectAll();
-        }
-        intent = new Intent(mContext, LyricActivity.class);
-
-        listener = new SongAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position) {
-                //Start Lyric Activity
-                Song songClick =  mSonglist.get(position);
-                Log.d(TAG,"name click" + mSonglist.get(position).getName());
-                intent.putExtra("song",songClick);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onButtonFavoriteClick(View v, int positon) {
-                //Update favorite Song
-                Log.d(TAG,"button click");
-                Song songClick =  mSonglist.get(positon);
-                String id = songClick.getID();
-                if (songClick.isLike()){
-                    mMainPresenter.updateFavorite(id,0);
-                    songClick.setLike(false);
-                    mSongAdapter.notifyDataSetChanged();
-                }
-                else{
-                    mMainPresenter.updateFavorite(id,1);
-                    songClick.setLike(true);
-                    mSongAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-        mSongAdapter = new SongAdapter(mSonglist, listener);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
-        rvPage.setLayoutManager(mLayoutManager);
-        rvPage.setAdapter(mSongAdapter);
-    }
     private void addEvent() {
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override

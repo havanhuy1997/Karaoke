@@ -69,9 +69,10 @@ public class DrawerActivity extends AppCompatActivity
         } else if (id == R.id.californiaList) {
             drawerPresenter.updateDisplay(1);
             toolbar.setSubtitle(getResources().getString(R.string.title_6)) ;
-        } else if (id == R.id.contact) {
+        } else if (id == R.id.favoriteList) {
             drawerPresenter.updateDisplay(2);
-
+        } else if (id == R.id.contact){
+            drawerPresenter.updateDisplay(3);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -96,7 +97,6 @@ public class DrawerActivity extends AppCompatActivity
         drawerPresenter = new DrawerPresenter(this);
 
         drawerPresenter.updateDisplay(0);
-        toolbar.setTitle("Mã Số Bài Hát Karaoke");
         toolbar.setSubtitle(getResources().getString(R.string.title_5));
     }
 

@@ -1,10 +1,12 @@
 package com.example.huyha.activities.drawer;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.util.Log;
 
 import com.example.huyha.fragments.ArirangFragment;
+import com.example.huyha.fragments.favoriteFragment.FavoriteFragment;
 import com.example.huyva.karaoke.R;
 
 /**
@@ -27,18 +29,25 @@ public class DrawerPresenter {
                 fragment  = new ArirangFragment();
                 fragment.setmContext(mContext);
                 fragment.setTypeSong(5);
+                changeFragment(fragment);
                 break;
             case 1:
                 fragment  = new ArirangFragment();
                 fragment.setmContext(mContext);
                 fragment.setTypeSong(6);
+                changeFragment(fragment);
                 break;
             case 2:
+                FavoriteFragment favoriteFragment  = new FavoriteFragment();
+                favoriteFragment.setmContext(mContext);
+                changeFragment(favoriteFragment);
                 break;
             default:
                 break;
         }
+    }
 
+    private void changeFragment(Fragment fragment){
         if (fragment != null) {
             FragmentManager fragmentManager = mContext.getFragmentManager();
             fragmentManager.beginTransaction()
@@ -50,6 +59,5 @@ public class DrawerPresenter {
             // error in creating fragment
             Log.e(TAG, "Error in creating fragment");
         }
-
     }
 }
