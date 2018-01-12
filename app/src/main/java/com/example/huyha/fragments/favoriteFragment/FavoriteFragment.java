@@ -18,6 +18,8 @@ import com.example.huyha.fragments.MainPresenter;
 import com.example.huyha.models.Song;
 import com.example.huyha.models.localData.Database;
 import com.example.huyva.karaoke.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class FavoriteFragment extends android.app.Fragment {
     RadioButton rb6;
     @BindView(R.id.rvFavorite)
     RecyclerView rvFavorite;
+    @BindView(R.id.adViewFavoriteSong)
+    AdView adViewFavoriteSong;
 
     private Context mContext;
 
@@ -73,6 +77,7 @@ public class FavoriteFragment extends android.app.Fragment {
     public void onStart() {
         super.onStart();
         init();
+        initAd();
         addEvent();
     }
 
@@ -136,5 +141,11 @@ public class FavoriteFragment extends android.app.Fragment {
                 mSongAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void initAd(){
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adViewFavoriteSong.loadAd(adRequest);
     }
 }

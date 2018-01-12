@@ -3,11 +3,16 @@ package com.example.huyha.activities.lyric;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.huyha.models.Song;
 import com.example.huyva.karaoke.R;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +24,8 @@ public class LyricActivity extends AppCompatActivity {
     TextView txtComposer;
     @BindView(R.id.txtLyric2)
     TextView txtLyric2;
+    @BindView(R.id.adViewLyric)
+    AdView adViewLyric;
 
     Song song;
     @Override
@@ -36,11 +43,49 @@ public class LyricActivity extends AppCompatActivity {
 
         txtComposer.setText(song.getAuthor());
         txtLyric2.setText(song.getLyric());
+
+        initAd();
+
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       this.finish();
-       return true;
+        initAdInterstitial();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        initAdInterstitial();
+    }
+
+    void initAd(){
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adViewLyric.loadAd(adRequest);
+    }
+    void initAdInterstitial(){
+        final InterstitialAd interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(getString(R.string.ad_fullscreen));
+        AdRequest adRequest = new AdRequest.Builder().build();
+        interstitialAd.loadAd(adRequest);
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Log.d(TAG,"OnAdClosed");
+                finish();
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Log.d(TAG,"OnAdLoad");
+                if (interstitialAd!=null){
+                    interstitialAd.show();
+                }
+            }
+        });
     }
 }

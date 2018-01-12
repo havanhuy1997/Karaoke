@@ -20,6 +20,8 @@ import com.example.huyha.models.Song;
 import com.example.huyha.models.localData.Database;
 import com.example.huyha.utils.AsynFindDatabase;
 import com.example.huyva.karaoke.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,8 @@ public class ArirangFragment extends android.app.Fragment {
     Button btnSearch;
     @BindView(R.id.rvPage2)
     RecyclerView rvPage;
+    @BindView(R.id.adViewSong)
+    AdView adViewSong;
     private Context mContext;
     public static String keySearch;
     private int countSpaceKeySearch = 0;
@@ -88,6 +92,7 @@ public class ArirangFragment extends android.app.Fragment {
         Log.d(TAG,"onStart"+txtKeySearch.getText().toString());
         super.onStart();
         init();
+        initAd();
         addEvent();
     }
 
@@ -117,7 +122,6 @@ public class ArirangFragment extends android.app.Fragment {
         else{
             new AsynFindDatabase(mSonglist,mSongAdapter).execute(keySearch);
         }
-        //new AsynFindDatabase(mSonglist,mSongAdapter).execute(new String[]{"","selectAll"});
         intent = new Intent(mContext, LyricActivity.class);
 
         listener = new SongAdapter.onItemClickListener() {
@@ -153,6 +157,7 @@ public class ArirangFragment extends android.app.Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext);
         rvPage.setLayoutManager(mLayoutManager);
         rvPage.setAdapter(mSongAdapter);
+
     }
 
     private void addEvent() {
@@ -200,5 +205,11 @@ public class ArirangFragment extends android.app.Fragment {
     public void onStop() {
         super.onStop();
         new Database().getInstance().close();
+    }
+
+    void initAd(){
+        AdRequest adRequest = new AdRequest.Builder()
+                .build();
+        adViewSong.loadAd(adRequest);
     }
 }

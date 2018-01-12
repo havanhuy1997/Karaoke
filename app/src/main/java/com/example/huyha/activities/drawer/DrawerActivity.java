@@ -23,6 +23,7 @@ public class DrawerActivity extends AppCompatActivity
         setContentView(R.layout.activity_drawer);
 
         init();
+
     }
 
     @Override
