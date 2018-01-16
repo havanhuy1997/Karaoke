@@ -56,8 +56,8 @@ public class LyricActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         initAdInterstitial();
+        super.onBackPressed();
     }
 
     void initAd(){

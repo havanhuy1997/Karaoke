@@ -10,7 +10,7 @@
         android:id="@+id/imgWelcome"
         android:layout_width="384dp"
         android:layout_height="wrap_content"
-        android:src="@drawable/like"
+        android:src="@drawable/logo_karaoke"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="131dp" />
 </android.support.constraint.ConstraintLayout>
