@@ -7,22 +7,33 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.example.huyva.karaoke.R;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
     DrawerPresenter drawerPresenter;
+    AdView adDrawer;
+    @BindView(R.id.adDrawer)
+    FrameLayout adFramelayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
-
+        ButterKnife.bind(this);
         init();
+        initAd();
 
     }
 
@@ -34,28 +45,6 @@ public class DrawerActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.drawer, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -72,13 +61,16 @@ public class DrawerActivity extends AppCompatActivity
             toolbar.setSubtitle(getResources().getString(R.string.title_6)) ;
         } else if (id == R.id.favoriteList) {
             drawerPresenter.updateDisplay(2);
-        } else if (id == R.id.contact){
-            drawerPresenter.updateDisplay(3);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adDrawer.destroy();
     }
 
     private  void init(){
@@ -101,4 +93,42 @@ public class DrawerActivity extends AppCompatActivity
         toolbar.setSubtitle(getResources().getString(R.string.title_5));
     }
 
+    void initAd(){
+        adDrawer = new AdView(this);
+        adDrawer.setAdSize(AdSize.BANNER);
+        adDrawer.setAdUnitId(getString(R.string.banner_home_footer));
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adDrawer.loadAd(adRequest);
+        adDrawer.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                adFramelayout.removeAllViews();
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+
+            @Override
+            public void onAdLoaded() {
+                adFramelayout.removeAllViews();
+                if (adDrawer!= null) {
+                    adFramelayout.addView(adDrawer);
+                }
+                super.onAdLoaded();
+            }
+        });
+    }
 }

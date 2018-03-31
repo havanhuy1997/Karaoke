@@ -4,55 +4,21 @@
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.example.huyha.fragments.ArirangFragment">
-
-    <LinearLayout
+    tools:context="com.example.huyha.fragments.ArirangFragment"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+    <EditText
+        android:id="@+id/txtKeySearch2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:focusable="true"
+        android:ems="10"
+        android:hint="@string/txt_search"
+        android:inputType="textUri|textPersonName"
         android:focusableInTouchMode="true"
-        android:weightSum="1">
-
-        <EditText
-            android:id="@+id/txtKeySearch2"
-            android:layout_width="285dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/txt_search"
-            android:inputType="textUri|textPersonName"
-            android:focusableInTouchMode="true"
-            android:textSize="14sp" />
-
-        <Button
-            android:id="@+id/btnSearch2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/btn_search"
-            android:textAllCaps="false"
-            android:textSize="12sp" />
-
-    </LinearLayout>
-
-    <FrameLayout
+        android:textSize="14sp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvPage2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvPage2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adViewSong"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_home_footer" />
-
-    </FrameLayout>
-
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

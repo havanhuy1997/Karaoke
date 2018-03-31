@@ -13,9 +13,6 @@
         <item
             android:id="@+id/favoriteList"
             android:title="@string/navigation_favorite" />
-        <item
-            android:id="@+id/contact"
-            android:title="@string/navigation_contact" />
     </group>
 
 </menu>

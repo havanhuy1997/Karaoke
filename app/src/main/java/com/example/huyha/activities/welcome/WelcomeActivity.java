@@ -23,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         Log.d(TAG,"onStart");
-        mDatabase.setmContext(this);
+        mDatabase.setmContext(getApplicationContext());
         mDatabase.createDatabaseDirectory();
         mDatabase.copyDatabaseToDirectory();
         intent = new Intent(this, DrawerActivity.class);

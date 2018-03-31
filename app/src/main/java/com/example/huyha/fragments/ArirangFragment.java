@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.huyha.activities.lyric.LyricActivity;
@@ -20,8 +19,6 @@ import com.example.huyha.models.Song;
 import com.example.huyha.models.localData.Database;
 import com.example.huyha.utils.AsynFindDatabase;
 import com.example.huyva.karaoke.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +30,8 @@ public class ArirangFragment extends android.app.Fragment {
     private static final String TAG = "ArirangFragment";
     @BindView(R.id.txtKeySearch2)
     EditText txtKeySearch;
-    @BindView(R.id.btnSearch2)
-    Button btnSearch;
     @BindView(R.id.rvPage2)
     RecyclerView rvPage;
-    @BindView(R.id.adViewSong)
-    AdView adViewSong;
     private Context mContext;
     public static String keySearch;
     private int countSpaceKeySearch = 0;
@@ -92,7 +85,6 @@ public class ArirangFragment extends android.app.Fragment {
         Log.d(TAG,"onStart"+txtKeySearch.getText().toString());
         super.onStart();
         init();
-        initAd();
         addEvent();
     }
 
@@ -161,14 +153,6 @@ public class ArirangFragment extends android.app.Fragment {
     }
 
     private void addEvent() {
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                keySearch = txtKeySearch.getText().toString();
-                new AsynFindDatabase(mSonglist, mSongAdapter).execute(keySearch);
-            }
-        });
-
         txtKeySearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -205,11 +189,5 @@ public class ArirangFragment extends android.app.Fragment {
     public void onStop() {
         super.onStop();
         new Database().getInstance().close();
-    }
-
-    void initAd(){
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        adViewSong.loadAd(adRequest);
     }
 }

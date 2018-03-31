@@ -28,24 +28,9 @@
             android:text="@string/title_6" />
     </RadioGroup>
 
-    <FrameLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvFavorite"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvFavorite"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </android.support.v7.widget.RecyclerView>
-
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adViewFavoriteSong"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center"
-            ads:adSize="BANNER"
-            ads:adUnitId="@string/banner_home_footer" />
-
-    </FrameLayout>
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

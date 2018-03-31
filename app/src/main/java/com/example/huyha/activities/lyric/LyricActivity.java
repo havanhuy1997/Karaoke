@@ -3,14 +3,14 @@ package com.example.huyha.activities.lyric;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.huyha.models.Song;
 import com.example.huyva.karaoke.R;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 
@@ -18,16 +18,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LyricActivity extends AppCompatActivity {
-    private static final String TAG = "LyricActivity";
 
     @BindView(R.id.txtComposer)
     TextView txtComposer;
     @BindView(R.id.txtLyric2)
     TextView txtLyric2;
-    @BindView(R.id.adViewLyric)
-    AdView adViewLyric;
+    @BindView(R.id.adFrameLayoutLyric)
+    FrameLayout adFrameLayoutLyric;
 
     Song song;
+    InterstitialAd interstitialAd;
+    AdView adView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +37,6 @@ public class LyricActivity extends AppCompatActivity {
 
         song = (Song) getIntent().getSerializableExtra("song");
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
         actionBar.setTitle(getResources().getString(R.string.title_actionbar_lyric_activity));
         actionBar.setSubtitle(song.getName());
 
@@ -45,47 +44,74 @@ public class LyricActivity extends AppCompatActivity {
         txtLyric2.setText(song.getLyric());
 
         initAd();
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
         initAdInterstitial();
-        return true;
+
     }
+
 
     @Override
     public void onBackPressed() {
-        initAdInterstitial();
-        super.onBackPressed();
+        if (interstitialAd != null) {
+            if (interstitialAd.isLoaded()) {
+                interstitialAd.show();
+            }
+            else{
+                super.onBackPressed();
+            }
+        }
+        else{
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        adView.destroy();
     }
 
     void initAd(){
-        AdRequest adRequest = new AdRequest.Builder()
-                .build();
-        adViewLyric.loadAd(adRequest);
-    }
-    void initAdInterstitial(){
-        final InterstitialAd interstitialAd = new InterstitialAd(this);
-        interstitialAd.setAdUnitId(getString(R.string.ad_fullscreen));
+        adView = new AdView(this);
+        adView.setAdSize(AdSize.BANNER);
+        adView.setAdUnitId(getString(R.string.banner_home_footer));
+
         AdRequest adRequest = new AdRequest.Builder().build();
-        interstitialAd.loadAd(adRequest);
-        interstitialAd.setAdListener(new AdListener() {
+        adView.loadAd(adRequest);
+        adView.setAdListener(new AdListener(){
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
-                Log.d(TAG,"OnAdClosed");
-                finish();
+            }
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                adFrameLayoutLyric.removeAllViews();
+                super.onAdFailedToLoad(i);
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
             }
 
             @Override
             public void onAdLoaded() {
-                super.onAdLoaded();
-                Log.d(TAG,"OnAdLoad");
-                if (interstitialAd!=null){
-                    interstitialAd.show();
+                adFrameLayoutLyric.removeAllViews();
+                if (adView!= null) {
+                    adFrameLayoutLyric.addView(adView);
                 }
+                super.onAdLoaded();
             }
         });
+    }
+    void initAdInterstitial(){
+        interstitialAd = new InterstitialAd(getApplicationContext());
+        interstitialAd.setAdUnitId(getString(R.string.ad_fullscreen));
+        interstitialAd.loadAd(new AdRequest.Builder().build());
     }
 }
