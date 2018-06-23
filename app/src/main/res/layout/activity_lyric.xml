@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="com.example.huyha.activities.lyric.LyricActivity">
+    tools:context="com.huyha.huyha.activities.lyric.LyricActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
